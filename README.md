@@ -34,7 +34,7 @@ npm link
 
 To create a new game, run the following command: 
 ```bash
-jg create <nameOfTheGame>
+jg create "Name of the game"
 ```
 
 This will create a new folder `src/games/nameOfTheGame` with the following structure:
@@ -50,8 +50,9 @@ nameOfTheGame (camelCase)
 │   ├── fr.json
 │   └── en.json
 └── components
-    ├── ExampleComponent.ts
-    └── ExampleComponent.sass
+    └── exampleComponent
+        ├── ExampleComponent.ts
+        └── ExampleComponent.sass
 ```
 
 - `NameOfTheGame.ts`: Exports a class that extends the `Game` class.
@@ -63,17 +64,13 @@ nameOfTheGame (camelCase)
 - `config.json`: Contains game information such as title, description, author, tags, and ID.
 
 > [!WARNING]
-> It is strongly discouraged to change the ID in the config file. If you need to change it, run command the below to recreate an ID.
-
-```bash
-jg reset <nameOfTheGame>
-```
+> It is strongly discouraged to change the ID in the config file.
 
 ### Updating the Game List
 
 To update the game list, run the following command:
 ```bash
-jg update
+jg reload
 ```
 
 This updates the `src/games/index.json` file with the list of games. It also refreshes the list in the navbar and on the homepage.
