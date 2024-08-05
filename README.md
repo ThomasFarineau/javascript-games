@@ -1,32 +1,83 @@
-# SolidStart
+# Javascript Games
 
-Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/ThomasFarineau/javascript-games?label=version&sort=semver)
+![GitHub stars](https://img.shields.io/github/stars/ThomasFarineau/javascript-games)
+![TypeScript](https://img.shields.io/badge/TypeScript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
 
-## Creating a project
+A collection of games written in JavaScript or TypeScript.
 
+## How to Install Locally
+
+1. Clone the repository: `git clone https://github.com/ThomasFarineau/javascript-games.git`
+2. Install the dependencies: `yarn install`
+3. Start the development server: `yarn start` or `npm run start`
+
+## How to Contribute
+
+1. Fork the repository.
+2. Create a new branch (e.g., `feature/name-of-the-feature` or `game/name-of-the-game`).
 ```bash
-# create a new project in the current directory
-npm init solid@latest
-
-# create a new project in my-app
-npm init solid@latest my-app
+git checkout -b feature/name-of-the-feature
+```
+or
+```bash
+git checkout -b game/name-of-the-gamei
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
+Make sure all executable files are executable by running:
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+chmod +x ./bin/*
+npm link 
 ```
 
-## Building
+### Adding a New Game
 
-Solid apps are built with _presets_, which optimise your project for deployment to different environments.
+To create a new game, run the following command: 
+```bash
+jg create <nameOfTheGame>
+```
 
-By default, `npm run build` will generate a Node app that you can run with `npm start`. To use a different preset, add it to the `devDependencies` in `package.json` and specify in your `app.config.js`.
+This will create a new folder `src/games/nameOfTheGame` with the following structure:
+```
+nameOfTheGame (camelCase)
+├── NameOfTheGame.ts (PascalCase)
+├── NameOfTheGame.sass 
+├── instructions.md
+├── config.json
+├── assets
+│   └── icon.svg
+└── components
+    ├── ExampleComponent.ts
+    └── ExampleComponent.sass
+```
 
-## This project was created with the [Solid CLI](https://solid-cli.netlify.app)
+- `NameOfTheGame.ts`: Exports a class that extends the `Game` class.
+- `NameOfTheGame.sass`: Contains the styles for the game.
+- `instructions.md`: A markdown file displayed in the game's instructions modal and on the homepage.
+- `components`: An optional folder for any components used by the game.
+- `config.json`: Contains game information such as title, description, author, tags, and ID.
+
+> [!WARNING]
+> It is strongly discouraged to change the ID in the config file. If you need to change it, run command the below to recreate an ID.
+
+```bash
+jg reset <nameOfTheGame>
+```
+
+### Updating the Game List
+
+To update the game list, run the following command:
+```bash
+jg update
+```
+
+This updates the `src/games/index.json` file with the list of games. It also refreshes the list in the navbar and on the homepage.
+
+If the ID is updated, rerun the update command to refresh the list.
+
+> [!CAUTION]
+> Do not push the `index.json` file; it is included in `.gitignore` for a reason.
+
+### Merge Request
+
+When you are done with your feature, create a merge request to the `main` branch of the repository.
