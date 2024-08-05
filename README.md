@@ -45,7 +45,10 @@ nameOfTheGame (camelCase)
 ├── instructions.md
 ├── config.json
 ├── assets
-│   └── icon.svg
+│   └── nav.svg
+├── i18n
+│   ├── fr.json
+│   └── en.json
 └── components
     ├── ExampleComponent.ts
     └── ExampleComponent.sass
@@ -55,6 +58,8 @@ nameOfTheGame (camelCase)
 - `NameOfTheGame.sass`: Contains the styles for the game.
 - `instructions.md`: A markdown file displayed in the game's instructions modal and on the homepage.
 - `components`: An optional folder for any components used by the game.
+- `assets`: An optional folder for any assets used by the game, with a default `nav.svg` icon, please keep svg format for icon.
+- `i18n`: Contains the translations for the game. Add a new file for each language you want to support. The file name should be the language code (e.g., `fr.json` for French). A game is available in the user's language if the translation is available. Otherwise, the game is displayed is not displayed in the list.
 - `config.json`: Contains game information such as title, description, author, tags, and ID.
 
 > [!WARNING]
