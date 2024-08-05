@@ -26,8 +26,8 @@ git checkout -b game/name-of-the-gamei
 
 Make sure all executable files are executable by running:
 ```bash
-chmod +x ./bin/*
-npm link 
+chmod +x bin/*.js
+npm link --force
 ```
 
 ### Adding a New Game

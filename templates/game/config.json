@@ -1,0 +1,15 @@
+{
+  "id": "auto",
+  "slug": "auto",
+  "title": "Name of the game",
+  "description": "Description of the game",
+  "author": {
+    "name": "John Doe",
+    "url": "https://github.com/johndoe",
+    "contact": "john.doe@example.com"
+  },
+  "tags": [
+    "game"
+  ],
+  "nav-icon": "assets/nav.svg"
+}
