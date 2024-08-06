@@ -73,9 +73,7 @@ To update the game list, run the following command:
 jg reload
 ```
 
-This updates the `src/games/index.json` file with the list of games. It also refreshes the list in the navbar and on the homepage.
-
-If the ID is updated, rerun the update command to refresh the list.
+This updates/create the `src/games/index.json` and `src/games/index.ts` file with the list of games. It also refreshes the list in the navbar and on the homepage.
 
 > [!CAUTION]
 > Do not push the `index.json` file; it is included in `.gitignore` for a reason.

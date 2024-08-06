@@ -1,9 +1,9 @@
-import { JSX } from 'solid-js';
 import { A } from '@solidjs/router';
+import {JSXElement} from 'solid-js';
 
 interface NavItemProps {
     href: string;
-    icon: JSX.Element;
+    icon: JSXElement;
     label: string;
     isBlank?: boolean;
     location: { pathname: string };

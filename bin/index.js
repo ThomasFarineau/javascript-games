@@ -44,6 +44,7 @@ const createGame = async (gameName, authorName, authorUrl, authorEmail) => {
     await createGameComponent(gamePath, 'exampleComponent');
 
     console.log(`Game "${gameName}" created at ${gamePath} by ${authorName} (URL: ${authorUrl}, Email: ${authorEmail})`);
+    reload()
 };
 
 const createComponent = async (componentName) => {
