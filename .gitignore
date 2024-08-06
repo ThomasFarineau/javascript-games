@@ -28,3 +28,7 @@ gitignore
 Thumbs.db
 
 app.config.*.js
+
+src/games/index.json
+
+src/games/index.ts

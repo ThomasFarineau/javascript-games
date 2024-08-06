@@ -12,7 +12,6 @@ import {hideBin} from 'yargs/helpers';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const gamesDirectory = path.join(__dirname, '../src/games');
-const playDirectory = path.join(__dirname, '../src/routes/play');
 
 const generateUniqueGamePath = (baseName) => {
     let gameName = _.kebabCase(baseName);
@@ -82,6 +81,58 @@ const deleteGame = async (id) => {
     }
 
     console.log(`No game found with ID ${id}`);
+};
+
+const update = async () => {
+    const games = fs.readdirSync(gamesDirectory, { withFileTypes: true });
+
+    // Pour stocker les informations de chaque jeu
+    const gamesInfo = [];
+
+    // Pour générer le contenu du fichier index.ts
+    let indexTsContent = 'const componentsMap = {\n';
+
+    // Parcourir chaque dossier de jeu
+    for (const gameDir of games) {
+        if (gameDir.isDirectory()) {
+            const gamePath = path.join(gamesDirectory, gameDir.name);
+            const configPath = path.join(gamePath, 'config.json');
+
+            if (fs.existsSync(configPath)) {
+                const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+
+                // Ajouter les informations du jeu dans gamesInfo
+                gamesInfo.push({
+                    name: config.title || gameDir.name,
+                    slug: config.slug || _.kebabCase(gameDir.name),
+                    id: config.id,
+                    'nav-icon': config['nav-icon'] ? `/games/${gameDir.name}/${config['nav-icon']}` : null,
+                });
+
+                // Rechercher les fichiers .tsx à la racine du dossier de jeu
+                const tsxFiles = fs.readdirSync(gamePath).filter(file => file.endsWith('.tsx'));
+
+                tsxFiles.forEach(file => {
+                    const componentName = path.basename(file, '.tsx');
+                    const importPath = `./${gameDir.name}/${componentName}`;
+                    const slug = config.slug || _.kebabCase(gameDir.name);
+                    indexTsContent += `  '${slug}': () => import('${importPath}'),\n`;
+                });
+            }
+        }
+    }
+
+    indexTsContent += '};\n\nexport default componentsMap;\n';
+
+    // Écrire le fichier index.json
+    const indexJsonPath = path.join(gamesDirectory, 'index.json');
+    fs.writeFileSync(indexJsonPath, JSON.stringify(gamesInfo, null, 2));
+
+    // Écrire le fichier index.ts
+    const indexTsPath = path.join(gamesDirectory, 'index.ts');
+    fs.writeFileSync(indexTsPath, indexTsContent);
+
+    console.log('Files index.json and index.ts have been created/updated successfully.');
 };
 
 const copyDirectory = async (src, dest) => {
@@ -162,7 +213,7 @@ if (command === 'create-game') {
         createGameComponent(gameName, componentName);
     }
 } else if (command === 'update') {
-    // ......
+    update();
 } else if (command === 'delete') {
     if (args.length < 1) {
         console.log('Error: Please provide a game ID.');
