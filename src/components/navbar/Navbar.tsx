@@ -1,7 +1,7 @@
-import "./Navbar.sass";
-import {useLocation} from "@solidjs/router";
-import NavItem from "~/components/navbar/navitem/NavItem";
-import {createSignal} from "solid-js";
+import './Navbar.sass';
+import {useLocation} from '@solidjs/router';
+import NavItem from '~/components/navbar/navitem/NavItem';
+import {createSignal} from 'solid-js';
 
 export default function Navbar() {
     const location = useLocation();
@@ -32,7 +32,7 @@ export default function Navbar() {
                   d="M11 2c4.968 0 9 4.032 9 9s-4.032 9-9 9-9-4.032-9-9 4.032-9 9-9Zm0 16c3.867 0 7-3.133 7-7s-3.133-7-7-7-7 3.133-7 7 3.133 7 7 7Zm8.485.071 2.829 2.828-1.415 1.415-2.828-2.829 1.414-1.414Z"></path>
         </svg>);
 
-    return <aside class={isClosed() ? "closed" : ""}>
+    return <aside class={isClosed() ? 'closed' : ''}>
         <header>
             <div class="hide-on-closed">
                 <div class="title">
@@ -48,7 +48,7 @@ export default function Navbar() {
         <div class="search">
             <label>
                 {searchIcon}
-                <input type="text" class={"hide-on-closed"} placeholder="Search..."/>
+                <input type="text" class={'hide-on-closed'} placeholder="Search..."/>
             </label>
         </div>
         <nav>
@@ -61,7 +61,7 @@ export default function Navbar() {
                         <path fill="currentColor"
                               d="m16 9.226-8-6.21-8 6.21V6.694l8-6.21 8 6.21zM14 9v6h-4v-4H6v4H2V9l6-4.5z"></path>
                     </svg>}
-                    label="Home"
+                    label="Index"
                     location={location}
                 />
                 <NavItem

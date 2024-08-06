@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 
 import fs from 'fs';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path, {dirname} from 'path';
+import {fileURLToPath} from 'url';
 import inquirer from 'inquirer';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import _ from 'lodash';
 import yargs from 'yargs/yargs';
-import { hideBin } from 'yargs/helpers';
+import {hideBin} from 'yargs/helpers';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Le chemin vers le dossier des jeux
 const gamesDirectory = path.join(__dirname, '../src/games');
+const playDirectory = path.join(__dirname, '../src/routes/play');
 
 const generateUniqueGamePath = (baseName) => {
     let gameName = _.kebabCase(baseName);
@@ -28,32 +28,26 @@ const generateUniqueGamePath = (baseName) => {
 const createGame = async (gameName, authorName, authorUrl, authorEmail) => {
     const gamePath = generateUniqueGamePath(gameName);
 
-    // Copier les dossiers de templates
     await copyDirectory(path.join(__dirname, '../templates/game'), gamePath);
 
-    // Renommer les fichiers et remplacer le contenu dans le dossier du jeu
     await renameFilesAndContent(gamePath, 'Name', _.upperFirst(_.camelCase(gameName)));
 
-    // Mettre à jour config.json
     const configPath = path.join(gamePath, 'config.json');
     let config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
     config.id = uuidv4();
     config.slug = gamePath.split('/').pop();
     config.author = {
-        name: authorName,
-        url: authorUrl,
-        email: authorEmail
+        name: authorName, url: authorUrl, email: authorEmail
     };
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
-    // Créer l'exemple de composant "exampleComponent"
     await createGameComponent(gamePath, 'exampleComponent');
 
     console.log(`Game "${gameName}" created at ${gamePath} by ${authorName} (URL: ${authorUrl}, Email: ${authorEmail})`);
 };
 
 const createComponent = async (componentName) => {
-    const componentsDirectory = path.join(__dirname, '../src/components');
+    const componentsDirectory = path.join(__dirname, '../src/components/shared');
     const componentPath = path.join(componentsDirectory, componentName);
 
     await copyDirectory(path.join(__dirname, '../templates/component'), componentPath);
@@ -72,22 +66,6 @@ const createGameComponent = async (gamePath, componentName) => {
     console.log(`Game Component "${componentName}" created in ${componentPath}`);
 };
 
-const updateGame = async (gameName, updateFields) => {
-    const gamePath = path.join(gamesDirectory, _.kebabCase(gameName));
-    const configPath = path.join(gamePath, 'config.json');
-
-    if (!fs.existsSync(configPath)) {
-        console.log(`No game found with name "${gameName}".`);
-        return;
-    }
-
-    let config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-    config = { ...config, ...updateFields };
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-
-    console.log(`Game "${gameName}" updated with fields: ${JSON.stringify(updateFields)}.`);
-};
-
 const deleteGame = async (id) => {
     const games = fs.readdirSync(gamesDirectory);
 
@@ -96,7 +74,7 @@ const deleteGame = async (id) => {
         if (fs.existsSync(configPath)) {
             const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
             if (config.id === id) {
-                fs.rm(path.join(gamesDirectory, gameDir), { recursive: true });
+                fs.rm(path.join(gamesDirectory, gameDir), {recursive: true});
                 console.log(`Game with ID ${id} has been deleted.`);
                 return;
             }
@@ -107,8 +85,8 @@ const deleteGame = async (id) => {
 };
 
 const copyDirectory = async (src, dest) => {
-    fs.mkdirSync(dest, { recursive: true });
-    const entries = fs.readdirSync(src, { withFileTypes: true });
+    fs.mkdirSync(dest, {recursive: true});
+    const entries = fs.readdirSync(src, {withFileTypes: true});
 
     for (let entry of entries) {
         const srcPath = path.join(src, entry.name);
@@ -155,24 +133,16 @@ if (command === 'create-game') {
         console.log('Error: Please provide a game name.');
     } else {
         const gameName = args.join(' ');
-        inquirer.prompt([
-            {
-                type: 'input',
-                name: 'authorName',
-                message: 'Enter the author\'s name (or username):',
-                validate: (input) => input ? true : 'Name is required',
-            },
-            {
-                type: 'input',
-                name: 'authorUrl',
-                message: 'Enter the author\'s profile URL (e.g., GitHub URL) (optional):',
-            },
-            {
-                type: 'input',
-                name: 'authorEmail',
-                message: 'Enter a contact email (optional):',
-            },
-        ]).then(async answers => {
+        inquirer.prompt([{
+            type: 'input',
+            name: 'authorName',
+            message: 'Enter the author\'s name (or username):',
+            validate: (input) => input ? true : 'Name is required',
+        }, {
+            type: 'input', name: 'authorUrl', message: 'Enter the author\'s profile URL (e.g., GitHub URL) (optional):',
+        }, {
+            type: 'input', name: 'authorEmail', message: 'Enter a contact email (optional):',
+        },]).then(async answers => {
             await createGame(gameName, answers.authorName, answers.authorUrl, answers.authorEmail);
         });
     }
@@ -191,16 +161,8 @@ if (command === 'create-game') {
         const componentName = args.slice(1).join(' ');
         createGameComponent(gameName, componentName);
     }
-} else if (command === 'update-game') {
-    if (args.length < 3) {
-        console.log('Error: Please provide a game name, field, and value.');
-    } else {
-        const gameName = args[0];
-        const field = args[1];
-        const value = args.slice(2).join(' ');
-        const updateFields = { [field]: value };
-        updateGame(gameName, updateFields);
-    }
+} else if (command === 'update') {
+    // ......
 } else if (command === 'delete') {
     if (args.length < 1) {
         console.log('Error: Please provide a game ID.');

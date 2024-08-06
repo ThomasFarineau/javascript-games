@@ -1,4 +1,4 @@
-import "./Name.sass";
+import './Name.sass';
 
 export default function Name() {
   return (

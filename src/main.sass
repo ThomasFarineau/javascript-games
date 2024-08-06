@@ -1,5 +1,43 @@
-*
+// reset
+*, *:before, *:after
   box-sizing: border-box
+
+html, body, div, span, object, iframe, figure, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, code, em, img, small, strike, strong, sub, sup, tt, b, u, i, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, main, canvas, embed, footer, header, nav, section, video
+  margin: 0
+  padding: 0
+  border: 0
+  font-size: 100%
+  font: inherit
+  vertical-align: baseline
+  text-rendering: optimizeLegibility
+  -webkit-font-smoothing: antialiased
+  text-size-adjust: none
+
+footer, header, nav, section, main
+  display: block
+
+body
+  line-height: 1
+
+ol, ul
+  list-style: none
+
+blockquote, q
+  quotes: none
+
+blockquote:before, blockquote:after, q:before, q:after
+  content: ''
+  content: none
+
+table
+  border-collapse: collapse
+  border-spacing: 0
+
+input
+  -webkit-appearance: none
+  border-radius: 0
+
+// end reset
 
 body
   font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif
@@ -13,3 +51,69 @@ body
     padding: 1em
     gap: 1em
     height: 100vh
+
+    #error-page
+      display: flex
+      flex-direction: row
+      place-items: center
+      color: #fff
+      justify-content: space-evenly
+      height: 100%
+
+      @keyframes float
+        0%
+          transform: translateY(0) scale(1) rotate(0deg)
+        50%
+          transform: translateY(-0.5rem) scale(1.05) rotate(-3deg)
+        100%
+          transform: translateY(0) scale(1) rotate(0deg)
+
+      svg
+        width: 20rem
+        path
+          &:nth-child(1)
+            animation: float 5s linear infinite
+          &:nth-child(2)
+            animation: float 5s linear 0.5s infinite
+          &:nth-child(3)
+            animation: float 5s linear 1s infinite
+          &:nth-child(4)
+            animation: float 5s linear 1.5s infinite
+          &:nth-child(5)
+            animation: float 5s linear 2s infinite
+
+      .info
+        display: flex
+        flex-direction: column
+        align-items: baseline
+        gap: 1rem
+
+        h1
+          font-size: 5rem
+          font-weight: 400
+
+        p
+          font-size: 1rem
+          font-weight: 300
+
+        .actions
+          display: flex
+          flex-direction: row
+          gap: 1rem
+
+          a
+            cursor: pointer
+            color: white
+            text-decoration: none
+            padding: 0.75rem
+            border: 2px solid white
+            border-radius: 0.5rem
+            transition: all ease 0.2s
+
+            &:last-child
+              background: white
+              color: black
+
+            &:hover
+              background: white
+              color: black
