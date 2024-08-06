@@ -22,8 +22,11 @@ jobs:
       - name: install
         run: yarn install
 
+      - name: lint
+        run: yarn run lint
+
       - name: setup
-        run: node ./bin/index.js update
+        run: node ./bin/index.js reload
 
       - name: build
         run: yarn run build
