@@ -9,12 +9,10 @@ import _ from 'lodash';
 import yargs from 'yargs/yargs';
 import {hideBin} from 'yargs/helpers';
 
-let __dirname = dirname(fileURLToPath(import.meta.url));
-if (import.meta.env.SERVER_BASE_URL) {
-    __dirname = path.join(__dirname, '..')
-}
-
+const __dirname = dirname(fileURLToPath(import.meta.url));
+console.log(__dirname);
 const gamesDirectory = path.join(__dirname, '../src/games');
+console.log(gamesDirectory);
 
 const generateUniqueGamePath = (baseName) => {
     let gameName = _.kebabCase(baseName);
@@ -35,7 +33,7 @@ const createGame = async (gameName, authorName, authorUrl, authorEmail) => {
     await renameFilesAndContent(gamePath, 'Name', _.upperFirst(_.camelCase(gameName)));
 
     const configPath = path.join(gamePath, 'config.json');
-    let config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
     config.id = uuidv4();
     config.slug = gamePath.split('/').pop();
     config.author = {
@@ -135,7 +133,7 @@ const copyDirectory = async (src, dest) => {
     fs.mkdirSync(dest, {recursive: true});
     const entries = fs.readdirSync(src, {withFileTypes: true});
 
-    for (let entry of entries) {
+    for (const entry of entries) {
         const srcPath = path.join(src, entry.name);
         const destPath = path.join(dest, entry.name);
 
